@@ -12,3 +12,19 @@ from database import session
 from utils import upload_path
 
 
+song_schema = {
+    "properties": {
+        "file": {
+            "id": { "type": "int" },
+            "name": { "type": "string" }
+        }
+    }
+}
+
+@app.route("/api/songs", methods=["GET"])
+@decorators.accept("application/json")
+def songs_get():
+    """ Get list of all songs """
+    songs = session.query(models.Song).all()
+    data = json.dumps([song.as_dictionary() for song in songs])
+    return Response(data, 200, mimetype="application/json")
