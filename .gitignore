@@ -1,3 +1,4 @@
 env
 tuneful/uploads/*
 *.db
+*.pyc
