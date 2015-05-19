@@ -53,7 +53,7 @@ def song_post():
 @decorators.accept("application/json")
 @decorators.require("application/json")
 def song_put(id):
-    """ Add a new song """
+    """ Update an existing song """
     data = request.json
 
     try:
