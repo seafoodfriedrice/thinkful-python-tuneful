@@ -48,3 +48,25 @@ def song_post():
     data = json.dumps(song.as_dictionary())
     headers = { "Location": url_for("songs_get") }
     return Response(data, 201, headers=headers, mimetype="application/json")
+
+@app.route("/api/songs/<int:id>", methods=["PUT"])
+@decorators.accept("application/json")
+@decorators.require("application/json")
+def song_put(id):
+    """ Add a new song """
+    data = request.json
+
+    try:
+        validate(data, song_schema)
+    except ValidationError as error:
+        data = { "message": error.message }
+        return Response(json.dumps(data), 422, mimetype="application/json")
+
+    song = session.query(models.Song).get(id)
+    song.file.name = data["file"]["name"]
+    session.add(song)
+    session.commit()
+
+    data = json.dumps(song.as_dictionary())
+    headers = { "Location": url_for("songs_get") }
+    return Response(data, 201, headers=headers, mimetype="application/json")
