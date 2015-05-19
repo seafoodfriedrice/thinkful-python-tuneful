@@ -41,7 +41,7 @@ def song_post():
         data = { "message": error.message }
         return Response(json.dumps(data), 422, mimetype="application/json")
 
-    song = models.Song(file=models.File(name=data["name"]))
+    song = models.Song(file=models.File(name=data["file"]["name"]))
     session.add(song)
     session.commit()
 
