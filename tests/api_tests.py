@@ -91,3 +91,32 @@ class TestAPI(unittest.TestCase):
         )
         updated_data = json.loads(response.data)
         self.assertEqual(updated_data["file"]["name"], "updated_song.mp3")
+
+    def testSongDelete(self):
+        """ Delete an existing song's file name """
+        data = {
+            "file": {
+                "name": "new_song.mp3"
+            }
+        }
+        # Add a new song that we will use to delete
+        response = self.client.post("/api/songs",
+            data=json.dumps(data),
+            content_type="application/json",
+            headers=[("Accept", "application/json")]
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.mimetype, "application/json")
+        self.assertEqual(urlparse(response.headers.get("Location")).path,
+                         "/api/songs")
+
+        response = self.client.delete("/api/songs/1",
+            data=json.dumps(data),
+            content_type="application/json",
+            headers=[("Accept", "application/json")]
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.mimetype, "application/json")
+        delete_data = json.loads(response.data)
+        self.assertEqual(delete_data["message"],
+                         "File id 1 has been deleted.")
