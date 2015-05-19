@@ -70,3 +70,18 @@ def song_put(id):
     data = json.dumps(song.as_dictionary())
     headers = { "Location": url_for("songs_get") }
     return Response(data, 201, headers=headers, mimetype="application/json")
+
+@app.route("/api/songs/<int:id>", methods=["DELETE"])
+def song_delete(id):
+    """ Delete an existing song """
+    song = session.query(models.Song).get(id)
+    if not song:
+        message = "Could not find song with id {}".format(id)
+        data = json.dumps({"message": message})
+
+    session.delete(song)
+    session.commit()
+
+    message = "File id {} has been deleted.".format(id)
+    data = json.dumps({"message": message })
+    return Response(data, 200, mimetype="application/json")
