@@ -64,7 +64,7 @@ class TestAPI(unittest.TestCase):
                          "/api/songs")
 
     def testSongPut(self):
-        """ Post a new song """
+        """ Update an existing song's file name """
         data = {
             "file": {
                 "name": "new_song.mp3"
