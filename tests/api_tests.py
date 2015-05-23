@@ -146,7 +146,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.mimetype, "application/json")
 
-        data= json.loads(response.data)
+        data = json.loads(response.data)
         self.assertEqual(urlparse(data["path"]).path, "/uploads/test.txt")
 
         path = upload_path("test.txt")
