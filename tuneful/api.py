@@ -100,7 +100,7 @@ def file_post():
         return Response(json.dumps(data), 422, mimetype="application/json")
 
     filename = secure_filename(file.filename)
-    db_file = models.File(filename=filename)
+    db_file = models.File(name=filename)
     session.add(db_file)
     session.commit()
     file.save(upload_path(filename))
